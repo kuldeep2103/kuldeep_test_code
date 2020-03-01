@@ -2,7 +2,7 @@ pipeline {
 
     agent any
     tools {
-        maven 'mvn' 
+        maven 'maven' 
     }
     stages {
         stage('Compile stage') {
@@ -16,3 +16,10 @@ pipeline {
                 sh "mvn test"
         }
     }
+    stage('Deploy') {
+            steps {
+                sh "scp -r /root/.jenkins/workspace/declpipeline/in28minutes-web-servlet-jsp/target/*.war root@192.168.43.42:/opt/apache-tomcat-9.0.30/webapps"
+            }
+        }
+}
+}
