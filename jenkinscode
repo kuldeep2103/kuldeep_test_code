@@ -18,7 +18,7 @@ pipeline {
     }
     stage('Deploy') {
             steps {
-                sh "scp -r /root/.jenkins/workspace/declpipeline/in28minutes-web-servlet-jsp/target/*.war root@192.168.43.2:/opt/apache-tomcat-9.0.30/webapps"
+                sh "scp -r /root/.jenkins/workspace/declpipeline/in28minutes-web-servlet-jsp/target/*.war root@192.168.43.2:/opt/apache-tomcat-7.0.100/webapps"
             }
         }
 }
