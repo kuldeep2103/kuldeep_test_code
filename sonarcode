@@ -2,7 +2,7 @@ pipeline {
 
     agent any
     tools {
-        maven 'maven' 
+        maven 'mvn' 
     }
     stages {
         stage('Compile stage') {
@@ -16,17 +16,22 @@ pipeline {
                 sh "mvn test"
         }
     }
-		stage('build && SonarQube analysis') {
-		  steps{
-				withSonarQubeEnv('sonarqube"){
-			sh 'mvn clean package sonar:sonar'
-				}	
-			}
-		}	
-	stage('Deploy') {
+	  
+	stage('build && SonarQube analysis') {
+         steps {
+              withSonarQubeEnv('sonarqube') {
+                    // Optionally use a Maven environment you've configured already
+              sh 'mvn clean install sonar:sonar'
+             }
+        }
+     }
+
+        stage('Deploy') {
             steps {
-                sh "scp -r /root/.jenkins/workspace/declpipeline/in28minutes-web-servlet-jsp/target/*.war root@192.168.43.42:/opt/apache-tomcat-7.0.100/webapps"
+                sh "scp -r /root/.jenkins/workspace/declpipeline/in28minutes-web-servlet-jsp/target/*.war root@192.168.43.170:/opt/apache-tomcat-7.0.100/webapps/"
             }
         }
-    }
-    }
+
+  }
+
+}
